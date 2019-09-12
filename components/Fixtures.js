@@ -15,11 +15,6 @@ class Fixtures extends Component {
 
     };
   }  
-  /*
-   changeScene = () => {
-    props.navigation.navigate('Predict')
-  }
-*/
   componentDidMount(){
     this.getFixtures(20);
   }
@@ -57,13 +52,12 @@ class Fixtures extends Component {
       <View style={styles.parent}>
         <View style={styles.header} >
         <View style={styles.picker}>
+
         <Picker
           selectedValue={this.state.country}
           style={{ height: 50, width: 100 }}
           onValueChange={(itemValue, itemIndex) =>
             this.setState({country: itemValue}, () => {this.getFixtures()})
-            //this.setState({fixtures: []}).then(()=> console.log('hej!'))
-            //this.getFixtures(itemValue)
           }>
           <Picker.Item label="Danmark" value="20" />
           <Picker.Item label="England" value="2" />
@@ -71,6 +65,7 @@ class Fixtures extends Component {
           <Picker.Item label="Spanien" value="30" />
           <Picker.Item label="Tyskland" value="8" />
           </Picker>
+
       </View>
         </View>
         <View style={styles.fixtures} >
@@ -91,7 +86,7 @@ class Fixtures extends Component {
               eventtime={itemData.item.eventtime}
              // leaguename={itemData.item.leaguename}
               score = {itemData.item.score}
-              //navigation={props.navigation} 
+              navigation={this.props.navigation} 
 
               />
             )}

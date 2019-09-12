@@ -4,25 +4,29 @@ import Card from './Card';
 
 const Fixture = props => {  
 
-  const [predicted, setPredicted] = useState('false');
+  const [predicted, setPredicted] = useState('true');
 
+
+  /*
   const predictHandler = () => {
     setPredicted(true)
 }
 
-
-  const predictHandler2 = () => {
+*/
+  const predictHandler = () => {
     props.navigation.navigate({routeName: 'Predict', params: {
       hometeam: props.hometeam,
       awayteam: props.awayteam,
       eventtime: props.eventtime,
       leaguename: props.leaguename,
     }});
+
+    setPredicted(true)
   }
 
 
   return (
-    <TouchableOpacity onPress={ predictHandler2}  
+    <TouchableOpacity onPress={ predictHandler}  
     style={styles.screen} >
       <View style={styles.screen}>
         <Card style={styles.fixtureContainer}>

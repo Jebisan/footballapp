@@ -7,24 +7,27 @@ const Predict = props => {
   const eventtime = props.navigation.getParam('eventtime');
   const leaguename = props.navigation.getParam('leaguename');
 
+  const predict = () => {
+    props.navigation.navigate({routeName: 'Fixtures'});
+  }
+
 
   return (
     <View >
-    <Text style = {styles.card}>Hej</Text>
     <Text style = {styles.card}>{leaguename}</Text>
     <Text style = {styles.card}>{hometeam} vs {awayteam}</Text>
     <Text style = {styles.card}>{eventtime}</Text>
-    <Button title = 'Predict!' onPress = {() => console.log('Predicted!')}/>
+    <Button title = 'Predict!' onPress = {predict}/>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    paddingTop: 60,
+    paddingTop: 30,
     justifyContent: 'center', 
     alignItems: 'center',
-    padding: 30,
+    padding: 10,
   }
 });
 
