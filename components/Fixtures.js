@@ -1,4 +1,4 @@
-import React, {Component, useState } from 'react';
+import React, { Component, useState } from 'react';
 import { StyleSheet, View, Button, FlatList, Text, Image, Picker } from 'react-native';
 import Fixture from './Fixture';
 import axios from 'axios';
@@ -6,94 +6,88 @@ import moment from 'moment';
 
 class Fixtures extends Component {
   constructor(props) {
-    
+
     super(props);
     this.state = {
       fixtures: [],
-      country: 20,
+      league: 515,
       date: moment().format('YYYY-MM-DD')
 
     };
-  }  
-  componentDidMount(){
-    this.getFixtures(20);
   }
-  
+  componentDidMount() {
+    this.getFixtures(this.state.league);
+  }
+
   getFixtures = () => {
-    this.setState({fixtures: []})
-    axios.get('https://api-football-v1.p.rapidapi.com/v2/fixtures/league/'+this.state.country+'/', {
-      headers: {		
+    this.setState({ fixtures: [] })
+    const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/league/' + this.state.league + '/' + this.state.date
+    axios.get(url, {
+      headers: {
         "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-        "x-rapidapi-key": "17ca2b8fc9msh9572f6afb514c10p1917d8jsn141b09eef58d"
+        "x-rapidapi-key": "vWCVZ1AUsdmshOpeB3y1oZWN3NFbp1qCDqJjsniW3TaItON6Km"
       }
     })
-    .then((response) => {
-
-      response.data.api.fixtures.forEach(element => {
-        this.setState((prevState) => ({fixtures: [...prevState.fixtures, {
-          eventkey: element.fixture_id,
-          hometeam: element.homeTeam.team_name,
-          hometeamlogo: element.homeTeam.logo,
-          awayteam: element.awayTeam.team_name,
-          awayteamlogo: element.awayTeam.logo,
-          eventtime: moment.unix(element.event_timestamp,).format("DD/MM/YYYY"),                
-          //leaguename: element.league_name,
-          score: element.score.fulltime
-        }]}));
-
-      });
-      //this.setState({fixtures: response.data.api.fixtures})
-
-    })
+      .then((response) => {
+        response.data.api.fixtures.forEach(element => {
+          this.setState((prevState) => ({
+            fixtures: [...prevState.fixtures, {
+              eventkey: element.fixture_id,
+              hometeam: element.homeTeam.team_name,
+              hometeamlogo: element.homeTeam.logo,
+              awayteam: element.awayTeam.team_name,
+              awayteamlogo: element.awayTeam.logo,
+              eventtime: moment.unix(element.event_timestamp).format("DD/MM/YYYY"),
+              score: element.score.fulltime
+            }]
+          }));
+        });
+      })
   }
 
   render() {
     return (
       <View style={styles.parent}>
         <View style={styles.header} >
-        <View style={styles.picker}>
-
-        <Picker
-          selectedValue={this.state.country}
-          style={{ height: 50, width: 100 }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({country: itemValue}, () => {this.getFixtures()})
-          }>
-          <Picker.Item label="Danmark" value="20" />
-          <Picker.Item label="England" value="2" />
-          <Picker.Item label="Italien" value="28" />
-          <Picker.Item label="Spanien" value="30" />
-          <Picker.Item label="Tyskland" value="8" />
-          </Picker>
-
-      </View>
+          <View style={styles.picker}>
+            <Picker
+              selectedValue={this.state.league}
+              style={{ height: 50, width: 100 }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({ league: itemValue }, () => { this.getFixtures() })
+              }>
+              <Picker.Item label="Superligaen" value="515" />
+              <Picker.Item label="Premier League" value="524" />
+              <Picker.Item label="Serie A" value="891" />
+              <Picker.Item label="Primera Division" value="775" />
+              <Picker.Item label="Bundes Liga" value="754" />
+            </Picker>
+          </View>
         </View>
         <View style={styles.fixtures} >
-        {this.state.fixtures.length===0?   <Image
-          style={styles.loading}
-          source={require('../assets/loading.gif')}
-        />  :
-              <FlatList
-            keyExtractor={(item) => item.eventkey.toString()} 
-            data={this.state.fixtures}
-            renderItem={itemData => (
-              <Fixture
-              eventkey={itemData.item.eventkey}
-              hometeam={itemData.item.hometeam}
-              hometeamlogo={itemData.item.hometeamlogo}
-              awayteam={itemData.item.awayteam}
-              awayteamlogo={itemData.item.awayteamlogo}
-              eventtime={itemData.item.eventtime}
-             // leaguename={itemData.item.leaguename}
-              score = {itemData.item.score}
-              navigation={this.props.navigation} 
-
-              />
-            )}
-          />}
+          {this.state.fixtures.length === 0 ? <Image
+            style={styles.loading}
+            source={require('../assets/loading.gif')}
+          /> :
+            <FlatList
+              keyExtractor={(item) => item.eventkey.toString()}
+              data={this.state.fixtures}
+              renderItem={itemData => (
+                <Fixture
+                  eventkey={itemData.item.eventkey}
+                  hometeam={itemData.item.hometeam}
+                  hometeamlogo={itemData.item.hometeamlogo}
+                  awayteam={itemData.item.awayteam}
+                  awayteamlogo={itemData.item.awayteamlogo}
+                  eventtime={itemData.item.eventtime}
+                  score={itemData.item.score}
+                  navigation={this.props.navigation}
+                />
+              )}
+            />}
         </View>
       </View>
-  
+
     );
   }
 }
@@ -120,7 +114,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     paddingTop: 10,
-    paddingBottom: 140,
+    paddingBottom: 180,
     justifyContent: 'center',
     alignItems: 'center',
   },

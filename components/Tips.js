@@ -1,35 +1,64 @@
-import React from 'react';
-import { Button, View, StyleSheet, Text } from 'react-native';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { Button, View, StyleSheet, Text, FlatList } from 'react-native';
 
 
 const Tips = props => {
 
+  const [favoriteFixtures, setfavoriteFixtures] = useState([]);
 
-  const getMatches = () => {
-    axios.get('https://api-football-v1.p.rapidapi.com/v2/fixtures/date/2019-08-27', {
-      headers: {		
-        "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-        "x-rapidapi-key": "17ca2b8fc9msh9572f6afb514c10p1917d8jsn141b09eef58d"
-      }
-     }).then(function (response) {
-     console.log(response.data.api.fixtures)
-     })
+  useEffect(() => {
+    setfavoriteFixtures([
+      {
+        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        title: 'First Item',
+      },
+      {
+        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+        title: 'Second Item',
+      },
+      {
+        id: '58694a0f-3da1-471f-bd96-145571e29d72',
+        title: 'Third Item',
+      },
+    ])
+  });
+
+  function Item({ title }) {
+    return (
+      <View style={styles.item}>
+        <Text style={styles.title}>{title}</Text>
+      </View>
+    );
   }
-
-
+  
 
   return (
-    <View style = {styles.card}>
-    <Button onPress = {getMatches} title='Your tips!' />
+    <View style={styles.card}>
+      <View>
+      <FlatList
+      data={favoriteFixtures}
+      renderItem={({ item }) => <Item title={item.title} />}
+      keyExtractor={item => item.id}
+    />
+    </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    paddingTop: 250,
-  }
+  container: {
+    flex: 1,
+  },
+  item: {
+    backgroundColor: 'white',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
 });
+
 
 export default Tips;
