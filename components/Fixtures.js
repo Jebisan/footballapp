@@ -12,7 +12,6 @@ class Fixtures extends Component {
       fixtures: [],
       league: 515,
       date: moment().format('YYYY-MM-DD')
-
     };
   }
   componentDidMount() {
@@ -31,7 +30,7 @@ class Fixtures extends Component {
       .then((response) => {
         response.data.api.fixtures.forEach(element => {
           this.setState((prevState) => ({
-            fixtures: [...prevState.fixtures, {
+              fixtures: [...prevState.fixtures, {
               eventkey: element.fixture_id,
               hometeam: element.homeTeam.team_name,
               hometeamlogo: element.homeTeam.logo,
