@@ -14,18 +14,30 @@ class Fixtures extends Component {
     this.state = {
       fixtures: [],
       league: 515,
-      date: moment().format('YYYY-MM-DD')
-
+      today: moment().format('YYYY-MM-DD')
     };
   }
+
+
   componentDidMount() {
     this.getFixtures(this.state.league);
+
+    console.log(this.state.today)
+
+  }
+
+  getDate = (date) => {
+    if(date === this.state.today){
+      return 'Today'
+    } else {
+      return date
+    }
   }
 
   getFixtures = () => {
     this.setState({ fixtures: [] })
-    const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/date/' + this.state.date
-    //const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/league/' + this.state.league + '/' + this.state.date
+    //const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/date/' + this.state.today
+    const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/league/' + this.state.league + '/' + this.state.today
     axios.get(url, {
       headers: {
         "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
@@ -41,7 +53,7 @@ class Fixtures extends Component {
               hometeamlogo: element.homeTeam.logo,
               awayteam: element.awayTeam.team_name,
               awayteamlogo: element.awayTeam.logo,
-              eventtime: moment.unix(element.event_timestamp).format("DD/MM/YYYY"),
+              eventtime: this.getDate(moment.unix(element.event_timestamp).format("YYYY-MM-DD")),
               score: element.score.fulltime
             }]
           }));

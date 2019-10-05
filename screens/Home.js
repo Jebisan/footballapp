@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, View, StyleSheet, Text } from 'react-native';
 import axios from 'axios';
+import CustomPicker from '../components/CustomPicker';
 
 
 const Home = props => {
@@ -21,14 +22,22 @@ const Home = props => {
 
   return (
     <View style = {styles.card}>
-    <Button onPress = {getMatches} title='Get matches!' />
+      <Text style= {styles.header}>Welcome home!</Text>
+      <CustomPicker/>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    paddingTop: 250,
+    paddingTop: 120,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  } ,
+  header: {
+    fontSize: 30,
+    fontWeight: "bold"
+
   }
 });
 

@@ -18,7 +18,7 @@ const Navigator = createStackNavigator({
 );
 
 const TabNavigator = createBottomTabNavigator({
-
+/*
         'Predict': {screen: Predict, navigationOptions: {
         tabBarIcon: tabInfo => {
             return (
@@ -30,7 +30,7 @@ const TabNavigator = createBottomTabNavigator({
             );
         }
     }
-},'Hjem': {screen: Navigator, navigationOptions: {
+},*/'Hjem': {screen: Home, navigationOptions: {
         tabBarIcon: tabInfo => {
             return (
                 <Ionicons 
@@ -42,7 +42,7 @@ const TabNavigator = createBottomTabNavigator({
         }
     }
 },
-    'Tip!': {screen: Home, navigationOptions: {
+    'Tip!': {screen: Navigator, navigationOptions: {
         tabBarIcon: tabInfo => {
             return (
                 <Ionicons 
