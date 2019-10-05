@@ -1,8 +1,11 @@
 import React, { Component, useState } from 'react';
-import { StyleSheet, View, Button, FlatList, Text, Image, Picker } from 'react-native';
-import Fixture from './Fixture';
+import { StyleSheet, View, Button, FlatList, Text, Image } from 'react-native';
+import Fixture from '../components/Fixture';
 import axios from 'axios';
 import moment from 'moment';
+import CustomPicker from '../components/CustomPicker';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 
 class Fixtures extends Component {
   constructor(props) {
@@ -12,6 +15,7 @@ class Fixtures extends Component {
       fixtures: [],
       league: 515,
       date: moment().format('YYYY-MM-DD')
+
     };
   }
   componentDidMount() {
@@ -20,7 +24,8 @@ class Fixtures extends Component {
 
   getFixtures = () => {
     this.setState({ fixtures: [] })
-    const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/league/' + this.state.league + '/' + this.state.date
+    const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/date/' + this.state.date
+    //const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/league/' + this.state.league + '/' + this.state.date
     axios.get(url, {
       headers: {
         "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
@@ -30,7 +35,7 @@ class Fixtures extends Component {
       .then((response) => {
         response.data.api.fixtures.forEach(element => {
           this.setState((prevState) => ({
-              fixtures: [...prevState.fixtures, {
+            fixtures: [...prevState.fixtures, {
               eventkey: element.fixture_id,
               hometeam: element.homeTeam.team_name,
               hometeamlogo: element.homeTeam.logo,
@@ -48,27 +53,19 @@ class Fixtures extends Component {
     return (
       <View style={styles.parent}>
         <View style={styles.header} >
-          <View style={styles.picker}>
-            <Picker
-              selectedValue={this.state.league}
-              style={{ height: 50, width: 100 }}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({ league: itemValue }, () => { this.getFixtures() })
-              }>
-              <Picker.Item label="Superligaen" value="515" />
-              <Picker.Item label="Premier League" value="524" />
-              <Picker.Item label="Serie A" value="891" />
-              <Picker.Item label="Primera Division" value="775" />
-              <Picker.Item label="Bundes Liga" value="754" />
-            </Picker>
-          </View>
         </View>
         <View style={styles.fixtures} >
-          {this.state.fixtures.length === 0 ? <Image
-            style={styles.loading}
-            source={require('../assets/loading.gif')}
-          /> :
-            <FlatList
+          {this.state.fixtures.length === 0 ?
+            <Spinner
+              color='black'
+              visible={true}
+              textContent={'Loading matches...'}
+              textStyle={styles.spinnerTextStyle}
+              size='large'
+              overlayColor='rgba(0, 0, 0, 0)  '
+              animation='fade'
+            />
+            : <FlatList
               keyExtractor={(item) => item.eventkey.toString()}
               data={this.state.fixtures}
               renderItem={itemData => (
@@ -83,7 +80,8 @@ class Fixtures extends Component {
                   navigation={this.props.navigation}
                 />
               )}
-            />}
+            />
+          }
         </View>
       </View>
 
@@ -118,16 +116,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   fixtures: {
-    paddingTop: 50,
     justifyContent: 'flex-start',
     alignItems: 'center',
 
   },
 
   loading: {
-    width: 200,
-    height: 200,
+    flex: 1,
+    width: 100,
+    height: 100
+  },
+  spinnerTextStyle: {
+    color: '#000',
+  },
 
-
-  }
 });

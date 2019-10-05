@@ -2,59 +2,45 @@ import React, { useState } from 'react';
 import { Image, View, Text, StyleSheet, Button, TouchableOpacity, Modal } from 'react-native';
 import Card from './Card';
 
-const Fixture = props => {  
-
-  const [predicted, setPredicted] = useState('true');
+const Fixture = props => {
 
 
-  /*
   const predictHandler = () => {
-    setPredicted(true)
-}
-
-*/
-  const predictHandler = () => {
-    props.navigation.navigate({routeName: 'Predict', params: {
-      hometeam: props.hometeam,
-      awayteam: props.awayteam,
-      eventtime: props.eventtime,
-      leaguename: props.leaguename,
-    }});
-
-    setPredicted(true)
+    props.navigation.navigate({
+      routeName: 'Predict', params: {
+        eventkey: props.eventkey,
+        hometeam: props.hometeam,
+        hometeamlogo: props.hometeamlogo,
+        awayteam: props.awayteam,
+        awayteamlogo: props.awayteamlogo,
+        eventtime: props.eventtime,
+        leaguename: props.leaguename,
+      }
+    });
   }
 
 
   return (
-    <TouchableOpacity onPress={ predictHandler}  
-    style={styles.screen} >
+    <TouchableOpacity onPress={predictHandler}
+      style={styles.screen} >
       <View style={styles.screen}>
-        <Card style={styles.fixtureContainer}>
-          <View style={styles.teamsContainer}>
-            <View style={styles.team}>
-            <Image
-            style={{width: 50, height: 50}}
-            source={{uri: props.hometeamlogo}}
-          />
-              <Text>{props.hometeam}</Text>
-            </View>
-            <View>
-            <View style = {styles.middleContainer}>
-              <Text>{props.eventtime}</Text>
-            </View>
-            <View >
-              <Text>{props.score}</Text>
-            </View>
-            </View>
-            <View style={styles.team}>
-            <Image
-            style={{width: 50, height: 50}}
-            source={{uri: props.awayteamlogo}}
-          />
-              <Text>{props.awayteam}</Text>
-            </View>
-          </View>
-          {predicted===true?<Text>***PREDICTED***</Text>:null}
+
+        <Card style={styles.cardContainer}>
+
+           <View style={styles.cardContainer}>
+
+              <View style={styles.teamContainer}>
+                      <Image style={styles.logo} source={{ uri: props.hometeamlogo }} />
+                      <Text style={styles.teamName}>{props.hometeam}</Text>
+              </View>
+
+              <View style={styles.teamContainer}>
+                      <Image style={styles.logo} source={{ uri: props.awayteamlogo }} />
+                      <Text style={styles.teamName}> {props.awayteam}</Text>
+              </View>
+
+           </View>
+
         </Card>
       </View>
     </TouchableOpacity>
@@ -64,31 +50,25 @@ const Fixture = props => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    paddingTop:20,
+    paddingTop: 20,
     alignItems: 'center'
   },
-  fixtureContainer: {
-    width: 300,
-    maxWidth: '90%',
-    alignItems: 'center'
-  },
-  teamsContainer: {
+  cardContainer: {
+    flex: 1,
     flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    paddingVertical: 20
-  },
-  middleContainer:{
-    textAlign: 'center',
-    padding: 10
-  },
-  team: {
-    flexDirection: 'column',
+    justifyContent: "space-between",  
 
   },
-  matchID: {
-    fontSize: 16
+  teamContainer: {
+    alignItems: 'center',
+  },
+
+  logo: {
+    width: 50, 
+    height: 50,
+  },
+  teamName: {
+    fontSize: 10
   }
 
 });

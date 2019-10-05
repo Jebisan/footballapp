@@ -1,12 +1,12 @@
 import React from 'react';
 import {createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Fixture from '../components/Fixture';
-import Fixtures from '../components/Fixtures';
-import Predict from '../components/Predict';
-import Profile from '../components/Profile';
-import Tips from '../components/Tips';
-import Home from '../components/Home';
-import Leaderboard from '../components/Leaderboard';
+import Fixtures from '../screens/Fixtures';
+import Predict from '../screens/Predict';
+import Profile from '../screens/Profile';
+import Tips from '../screens/Tips';
+import Home from '../screens/Home';
+import Leaderboard from '../screens/Leaderboard';
 import { Ionicons } from '@expo/vector-icons';
 
 const Navigator = createStackNavigator({
@@ -18,7 +18,19 @@ const Navigator = createStackNavigator({
 );
 
 const TabNavigator = createBottomTabNavigator({
-    'Hjem': {screen: Home, navigationOptions: {
+
+        'Predict': {screen: Predict, navigationOptions: {
+        tabBarIcon: tabInfo => {
+            return (
+                <Ionicons 
+                name='ios-home' 
+                size={25} 
+                color='black' 
+                />
+            );
+        }
+    }
+},'Hjem': {screen: Navigator, navigationOptions: {
         tabBarIcon: tabInfo => {
             return (
                 <Ionicons 
@@ -30,7 +42,7 @@ const TabNavigator = createBottomTabNavigator({
         }
     }
 },
-    'Tip!': {screen: Navigator, navigationOptions: {
+    'Tip!': {screen: Home, navigationOptions: {
         tabBarIcon: tabInfo => {
             return (
                 <Ionicons 

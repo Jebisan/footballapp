@@ -3,9 +3,8 @@ import { StyleSheet } from 'react-native';
 import Navigator from './navigation/Navigator';
 import {useScreens} from 'react-native-screens';
 import { createStore , combineReducers} from 'redux';
-import fixturesReducer from './store/reducers/fixtures';
 import {Provider} from 'react-redux';
-import favoritesReducer from './store/reducers/FavoritesReducer.js';
+import predictionsReducer from './store/reducers/predictionsReducer.js';
 
 
 export default function App() {
@@ -13,11 +12,10 @@ export default function App() {
   useScreens();
 
   const rootReducer = combineReducers({
-    fixtures: fixturesReducer,
-    favorites: favoritesReducer
+    predictionsReducer: predictionsReducer,
   });
 
-  const store = createStore(rootReducer);
+  const store = createStore(rootReducer); 
 
 
   return (

@@ -1,9 +1,17 @@
+import {PREDICT} from '../actions/fixtures';
+
 const initialState = {
-fixtures: []
+fixtures: [],
+predicted: [],
+favorites: []
 };
 
 const fixturesReducer = (state = initialState, action) => {
-    return state
+    switch (action.type) {
+        default:
+          return state;
+      }
 }
+
 
 export default fixturesReducer;
