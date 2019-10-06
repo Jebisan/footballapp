@@ -1,5 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { StyleSheet, View, Button, FlatList, Text, Image } from 'react-native';
+import { useSelector } from 'react-redux'
 import Fixture from '../components/Fixture';
 import axios from 'axios';
 import moment from 'moment';
@@ -7,27 +8,22 @@ import CustomPicker from '../components/CustomPicker';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 
-class Fixtures extends Component {
-  constructor(props) {
 
-    super(props);
-    this.state = {
-      fixtures: [],
-      league: 515,
-      today: moment().format('YYYY-MM-DD')
-    };
-  }
+const Fixtures = props => {
+  const leagueId = useSelector(state => state.fixturesReducer.leagueId);
+  const [today, setToday] = useState(moment().format('YYYY-MM-DD'))
+  const [fixtures, setFixtures] = useState([])
 
 
-  componentDidMount() {
-    this.getFixtures(this.state.league);
 
-    console.log(this.state.today)
+  useEffect(() => {
+    getFixtures()
+  });
 
-  }
+
 
   getDate = (date) => {
-    if(date === this.state.today){
+    if (date === today) {
       return 'Today'
     } else {
       return date
@@ -35,9 +31,8 @@ class Fixtures extends Component {
   }
 
   getFixtures = () => {
-    this.setState({ fixtures: [] })
     //const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/date/' + this.state.today
-    const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/league/' + this.state.league + '/' + this.state.today
+    const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/league/' + leagueId + '/' + today
     axios.get(url, {
       headers: {
         "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
@@ -45,61 +40,51 @@ class Fixtures extends Component {
       }
     })
       .then((response) => {
-        response.data.api.fixtures.forEach(element => {
-          this.setState((prevState) => ({
-            fixtures: [...prevState.fixtures, {
-              eventkey: element.fixture_id,
-              hometeam: element.homeTeam.team_name,
-              hometeamlogo: element.homeTeam.logo,
-              awayteam: element.awayTeam.team_name,
-              awayteamlogo: element.awayTeam.logo,
-              eventtime: this.getDate(moment.unix(element.event_timestamp).format("YYYY-MM-DD")),
-              score: element.score.fulltime
-            }]
-          }));
-        });
+        setFixtures(response.data.api.fixtures)
       })
   }
 
-  render() {
-    return (
-      <View style={styles.parent}>
-        <View style={styles.header} >
-        </View>
-        <View style={styles.fixtures} >
-          {this.state.fixtures.length === 0 ?
-            <Spinner
-              color='black'
-              visible={true}
-              textContent={'Loading matches...'}
-              textStyle={styles.spinnerTextStyle}
-              size='large'
-              overlayColor='rgba(0, 0, 0, 0)  '
-              animation='fade'
-            />
-            : <FlatList
-              keyExtractor={(item) => item.eventkey.toString()}
-              data={this.state.fixtures}
-              renderItem={itemData => (
-                <Fixture
-                  eventkey={itemData.item.eventkey}
-                  hometeam={itemData.item.hometeam}
-                  hometeamlogo={itemData.item.hometeamlogo}
-                  awayteam={itemData.item.awayteam}
-                  awayteamlogo={itemData.item.awayteamlogo}
-                  eventtime={itemData.item.eventtime}
-                  score={itemData.item.score}
-                  navigation={this.props.navigation}
-                />
-              )}
-            />
-          }
-        </View>
-      </View>
 
-    );
-  }
-}
+
+  return (
+    <View style={styles.parent}>
+      <View style={styles.header} >
+      </View>
+      <View style={styles.fixtures} >
+        {fixtures.length === 0 ? <Spinner
+          color='black'
+          visible={true}
+          textContent={'Loading matches...'}
+          textStyle={styles.spinnerTextStyle}
+          size='large'
+          overlayColor='rgba(0, 0, 0, 0)  '
+          animation='fade'
+        />
+
+          :
+          <FlatList
+            keyExtractor={(item) => item.fixture_id.toString()}
+            data={fixtures}
+            renderItem={itemData => (
+              <Fixture
+                eventkey={itemData.item.fixture_id}
+                hometeam={itemData.item.homeTeam.team_name}
+                hometeamlogo={itemData.item.homeTeam.logo}
+                awayteam={itemData.item.awayTeam.team_name}
+                awayteamlogo={itemData.item.awayTeam.logo}
+                eventtime={itemData.item.event_timestamp}
+                score={itemData.item.score.fulltime}
+                navigation={props.navigation}
+              />
+            )}
+          />
+
+        }
+      </View>
+    </View>
+
+  );
+};
 
 export default Fixtures;
 
@@ -136,7 +121,7 @@ const styles = StyleSheet.create({
   loading: {
     flex: 1,
     width: 100,
-    height: 100
+    height: 100,
   },
   spinnerTextStyle: {
     color: '#000',

@@ -1,7 +1,9 @@
 import React, { useState, useReducer, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, View, StyleSheet, Text, Image, TextInput } from 'react-native';
-import { PREDICT } from '../store/actions/fixtures'
+import { PREDICT } from '../store/actions/fixtures';
+import moment from 'moment';
+
 
 const Predict = props => {
 
@@ -31,8 +33,9 @@ const Predict = props => {
    const hometeamlogo = props.navigation.getParam('hometeamlogo');
    const awayteamlogo = props.navigation.getParam('awayteamlogo');
    const awayteam = props.navigation.getParam('awayteam');
-   const eventdate = props.navigation.getParam('eventtime');
-   const eventtime = '20.00'
+   const eventdate = moment.unix(props.navigation.getParam('eventtime')).format("DD-MM-YYYY")
+   const eventtime = moment.unix(props.navigation.getParam('eventtime')).format("HH:mm")
+
 
    const leaguename = props.navigation.getParam('leaguename');
    const eventkey = props.navigation.getParam('eventkey');
@@ -52,7 +55,6 @@ const Predict = props => {
   const predictHandler = () => {
     dispatch({
       type: PREDICT,
-      //eventkey: (Math.floor(Math.random() * 100)).toString(),
       eventkey: eventkey,
       prediction: {
         goals: goals,

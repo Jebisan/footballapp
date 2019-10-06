@@ -5,17 +5,20 @@ import {useScreens} from 'react-native-screens';
 import { createStore , combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 import predictionsReducer from './store/reducers/predictionsReducer.js';
+import fixturesReducer from './store/reducers/fixturesReducer.js';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 
 export default function App() {
-
+  
   useScreens();
 
   const rootReducer = combineReducers({
     predictionsReducer: predictionsReducer,
+    fixturesReducer: fixturesReducer
   });
 
-  const store = createStore(rootReducer); 
+  const store = createStore(rootReducer, composeWithDevTools()); 
 
 
   return (
