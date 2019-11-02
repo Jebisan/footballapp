@@ -7,6 +7,8 @@ import moment from 'moment';
 import CustomPicker from '../components/CustomPicker';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+import data from './data'
+
 
 
 const Fixtures = props => {
@@ -20,8 +22,6 @@ const Fixtures = props => {
     getFixtures()
   });
 
-
-
   getDate = (date) => {
     if (date === today) {
       return 'Today'
@@ -31,17 +31,21 @@ const Fixtures = props => {
   }
 
   getFixtures = () => {
-    //const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/date/' + this.state.today
-    const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/league/' + leagueId + '/' + today
-    axios.get(url, {
-      headers: {
-        "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-        "x-rapidapi-key": "vWCVZ1AUsdmshOpeB3y1oZWN3NFbp1qCDqJjsniW3TaItON6Km"
-      }
-    })
-      .then((response) => {
-        setFixtures(response.data.api.fixtures)
-      })
+    //const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/date/' + today
+   // const url = 'https://api-football-v1.p.rapidapi.com/v2/fixtures/league/' + leagueId + '/' + today
+    //axios.get(url, {
+  //    headers: {
+   //     "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+    //    "x-rapidapi-key": "vWCVZ1AUsdmshOpeB3y1oZWN3NFbp1qCDqJjsniW3TaItON6Km"
+     // }
+   // })
+   //   .then((response) => {
+   //     setFixtures(response.data.api.fixtures)
+   //     console.log(response.data.api.fixtures)
+
+  //    })
+
+  setFixtures(data);
   }
 
 

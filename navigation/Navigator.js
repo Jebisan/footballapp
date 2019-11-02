@@ -2,24 +2,25 @@ import React from 'react';
 import {createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Fixture from '../components/Fixture';
 import Fixtures from '../screens/Fixtures';
-import Predict from '../screens/Predict';
+import PredictDashboard from '../screens/PredictDashboard';
 import Profile from '../screens/Profile';
 import Tips from '../screens/Tips';
 import Home from '../screens/Home';
 import Leaderboard from '../screens/Leaderboard';
+import OneQuestionScreen from '../screens/questions/OneQuestionScreen';
 import { Ionicons } from '@expo/vector-icons';
 
 const Navigator = createStackNavigator({
     Fixtures: Fixtures,
     Fixture: Fixture,
-    Predict: Predict
+    PredictDashboard: PredictDashboard,
+    OneQuestionScreen: OneQuestionScreen,
 }
 
 );
 
-const TabNavigator = createBottomTabNavigator({
-/*
-        'Predict': {screen: Predict, navigationOptions: {
+const TabNavigator = createBottomTabNavigator({/*
+'PredictDashboard': {screen: PredictDashboard, navigationOptions: {
         tabBarIcon: tabInfo => {
             return (
                 <Ionicons 

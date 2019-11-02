@@ -1,41 +1,43 @@
-import { PREDICT } from '../actions/fixtures';
-
-
 const INITIAL_STATE = {
-  predictions: [
-    /*
-    {
-      id: '1',
-      hometeam: 'FC Barcelona',
-      awayteam: 'Real Madrid',
-      eventtime: '01/11/2019',
-      leaguename: 'Primera Divison',
-    },
-    {
-      id: '2',
-      hometeam: 'FC København',
-      awayteam: 'Odense Boldklub',
-      eventtime: '02/11/2019',
-      leaguename: 'Superligaen',
-    },
-    {
-      id: '3',
-      hometeam: 'Manchester United',
-      awayteam: 'Chelsea',
-      eventtime: '03/11/2019',
-      leaguename: 'Premier League',
-    },*/
-  ],
+  predictions: [],
+  pendingGoals: undefined,
+  pendingShotsOnGoal: undefined,
+  pendingThrowIns: undefined,
+  pendingCorners: undefined,
+  pendingFreekicks: undefined,
+  pendingYellowCards: undefined,
+  pendingOffsides: undefined,
 };
 
 export default predictionsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case PREDICT:
-      return {
+    case 'PREDICT':
+      return {...state,
         predictions: [...state.predictions,
         { eventkey: action.eventkey, prediction: action.prediction }
         ]
       }
+
+    case 'SET_PENDING_GOALS':
+      return { ...state, pendingGoals: action.pendingGoals }
+
+    case 'SET_PENDING_SHOTS_ON_GOAL':
+      return { ...state, pendingShotsOnGoal: action.pendingShotsOnGoal }
+
+    case 'SET_PENDING_THROW_INS':
+      return { ...state, pendingThrowIns: action.pendingThrowIns }
+
+    case 'SET_PENDING_CORNERS':
+      return { ...state, pendingCorners: action.pendingCorners }
+
+    case 'SET_PENDING_FREEKICKS':
+      return { ...state, pendingFreekicks: action.pendingFreekicks }
+
+    case 'SET_PENDING_YELLOW_CARDS':
+      return { ...state, pendingYellowCards: action.pendingYellowCards }
+
+    case 'SET_PENDING_OFFSIDES':
+      return { ...state, pendingOffsides: action.pendingOffsides }
 
     default:
       return state
